@@ -27,18 +27,11 @@ Personal portfolio website — built with pure HTML, CSS & JavaScript.
     └── docs/           # CV PDF
 ```
 
-## 🛠 Customization
+## 🚀 Sviluppi Futuri
+Il sito è progettato in ottica modulare per facilitare l'aggiunta di nuove sezioni nel tempo. I prossimi sviluppi previsti includono:
 
-### Add your photo
-Place a `profile.jpg` (400×400 px) in `assets/img/` and update the `<img>` tag in `index.html` (About section).
+### 1. Sezione Blog (Divulgazione & Ricerca)
+Una sezione dedicata ad articoli e approfondimenti dove condividere appunti di fisica, riflessioni sul mondo della ricerca, spiegazioni di concetti complessi di fisica delle particelle e tutorial su strumenti come ROOT, Python e LaTeX.
 
-### Add your CV
-Place your CV as `cv-favagrossa.pdf` in `assets/docs/`.
-
-### Add new sections
-1. Add a `<section id="new-section">` in `index.html`
-2. Add a nav link in the `<nav>`
-3. Add translation keys in `js/i18n.js`
-
-## 📜 License
-MIT
+### 2. Sezione Teaching / Materiale Didattico
+Un'area strutturata per organizzare e rendere disponibile il materiale didattico (slide, appunti, dispense) utile sia per lo studio personale che come risorsa per altri studenti e appassionati.
