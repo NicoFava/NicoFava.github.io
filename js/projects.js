@@ -1,5 +1,8 @@
 /* ===================================================================
    PROJECTS.JS — Fetch GitHub repos and render project cards
+   Supports two modes:
+   - Home page (preview): shows first 3 pinned repos with compact cards
+   - Projects page (full): shows all pinned repos with expanded cards
    =================================================================== */
 
 (function () {
@@ -33,6 +36,95 @@
     'C': '#555555'
   };
 
+  /* --- Extended project data for the Projects page --- */
+  const PROJECT_DETAILS = {
+    'auger-anisotropy-scan': {
+      techStack: ['Python', 'NumPy', 'Matplotlib', 'Monte Carlo', 'HEALPix'],
+      highlights: {
+        it: [
+          'Scansione angolare automatizzata per la ricerca di eccessi di raggi cosmici',
+          'Generazione di mappe di cielo isotrope tramite simulazione Monte Carlo',
+          'Analisi statistica di clustering attorno a sorgenti candidate (NGC 5128)',
+          'Ottimizzazione delle prestazioni per grandi dataset di eventi UHECR'
+        ],
+        en: [
+          'Automated angular scanning for cosmic ray excess detection',
+          'Generation of isotropic sky maps via Monte Carlo simulation',
+          'Statistical clustering analysis around candidate sources (NGC 5128)',
+          'Performance optimization for large UHECR event datasets'
+        ]
+      }
+    },
+    'juno-cosmic-muons-analysis': {
+      techStack: ['C++', 'CERN ROOT', 'Bash', 'Linux'],
+      highlights: {
+        it: [
+          'Pipeline completa di analisi dati: dal formato grezzo alle distribuzioni fisiche',
+          'Metodo di selezione muoni indipendente confrontato con gli algoritmi ufficiali JUNO',
+          'Analisi del tasso di muoni e confronto con simulazioni Monte Carlo',
+          'Contributo alla strategia di veto del fondo cosmogenico del rivelatore'
+        ],
+        en: [
+          'Complete data analysis pipeline: from raw format to physical distributions',
+          'Independent muon selection method benchmarked against official JUNO algorithms',
+          'Muon rate analysis and comparison with Monte Carlo simulations',
+          'Contribution to the detector\'s cosmogenic background veto strategy'
+        ]
+      }
+    },
+    'atlas-hzz4l-analysis': {
+      techStack: ['Python', 'PyROOT', 'ROOT', 'Jupyter'],
+      highlights: {
+        it: [
+          'Ricostruzione del canale di scoperta del Bosone di Higgs (H → ZZ* → 4ℓ)',
+          'Pipeline batch automatizzata su 10 fb⁻¹ di ATLAS Open Data a 13 TeV',
+          'Cutflow cinematici ottimizzati e stima del fondo',
+          '"Money Plots" con ratio pad, incertezze statistiche e stile pubblicazione'
+        ],
+        en: [
+          'Reconstruction of the Higgs boson discovery channel (H → ZZ* → 4ℓ)',
+          'Automated batch pipeline on 10 fb⁻¹ of ATLAS Open Data at 13 TeV',
+          'Optimized kinematic cutflows and background estimation',
+          'Publication-style "Money Plots" with ratio pads and statistical uncertainties'
+        ]
+      }
+    },
+    'MC-Nuclear-Scattering': {
+      techStack: ['C++', 'CERN ROOT', 'Monte Carlo'],
+      highlights: {
+        it: [
+          'Simulazione dell\'esperimento di scattering Compton nucleare',
+          'Propagazione degli errori sulla sezione d\'urto differenziale tramite metodo Monte Carlo',
+          'Generazione di pseudo-dati e analisi di sensibilità',
+          'Validazione dei risultati analitici con approcci numerici'
+        ],
+        en: [
+          'Simulation of the nuclear Compton scattering experiment',
+          'Error propagation on the differential cross-section via Monte Carlo method',
+          'Pseudo-data generation and sensitivity analysis',
+          'Validation of analytical results with numerical approaches'
+        ]
+      }
+    },
+    'Latex': {
+      techStack: ['LaTeX', 'TikZ', 'Beamer'],
+      highlights: {
+        it: [
+          'Archivio organizzato di materiale accademico e professionale',
+          'Template personalizzati per tesi, relazioni e presentazioni',
+          'Appunti di corsi universitari formattati professionalmente',
+          'In continuo aggiornamento con nuovo materiale'
+        ],
+        en: [
+          'Organized archive of academic and professional material',
+          'Custom templates for theses, reports, and presentations',
+          'Professionally formatted university course notes',
+          'Continuously updated with new material'
+        ]
+      }
+    }
+  };
+
   /* --- Fallback data (in case GitHub API rate-limits) --- */
   const FALLBACK_DATA = [
     {
@@ -61,24 +153,29 @@
       html_url: 'https://github.com/NicoFava/MC-Nuclear-Scattering',
       language: 'C++',
       stargazers_count: 1,
-      description: 'Simulazione Monte Carlo in C++/ROOT per l\'analisi della propagazione degli errori sulla misura della sezione d\'urto differenziale dello scattering Compton.'
+      description: 'Monte Carlo simulation in C++/ROOT for error propagation on the nuclear Compton scattering cross-section.'
     },
     {
       name: 'Latex',
       html_url: 'https://github.com/NicoFava/Latex',
       language: 'TeX',
       stargazers_count: 1,
-      description: 'Archivio in continuo aggiornamento dove organizzo il mio materiale accademico, professionale e personale.'
+      description: 'Continuously updated archive of academic, professional, and personal LaTeX material.'
     }
   ];
 
-  /* --- Render a single project card --- */
+  /* --- Detect page mode --- */
+  const isProjectsPage = document.getElementById('projects-page-container') !== null;
+  const container = document.getElementById(isProjectsPage ? 'projects-page-container' : 'projects-container');
+
+  if (!container) return;
+
+  /* --- Render a compact project card (Home) --- */
   function createProjectCard(repo) {
     const icon = PROJECT_ICONS[repo.name] || '📁';
     const langColor = LANG_COLORS[repo.language] || '#ccc';
     const contextKey = `project.${repo.name}.context`;
     const context = window.i18n ? window.i18n.t(contextKey) : repo.description;
-    /* If i18n returns the key itself, it means no translation found — use fallback */
     const displayContext = (context === contextKey) ? repo.description : context;
 
     const card = document.createElement('div');
@@ -119,11 +216,82 @@
     return card;
   }
 
-  /* --- Render all projects --- */
-  function renderProjects(repos) {
-    const container = document.getElementById('projects-container');
-    if (!container) return;
+  /* --- Render an expanded project card (Projects page) --- */
+  function createExpandedProjectCard(repo) {
+    const icon = PROJECT_ICONS[repo.name] || '📁';
+    const langColor = LANG_COLORS[repo.language] || '#ccc';
+    const contextKey = `project.${repo.name}.context`;
+    const context = window.i18n ? window.i18n.t(contextKey) : repo.description;
+    const displayContext = (context === contextKey) ? repo.description : context;
+    const details = PROJECT_DETAILS[repo.name];
+    const lang = window.i18n ? window.i18n.getLang() : 'it';
 
+    const card = document.createElement('div');
+    card.className = 'project-card-expanded reveal';
+
+    let techStackHTML = '';
+    if (details && details.techStack) {
+      techStackHTML = `
+        <div class="project-tech-stack">
+          ${details.techStack.map(t => `<span class="project-tech-tag">${t}</span>`).join('')}
+        </div>
+      `;
+    }
+
+    let highlightsHTML = '';
+    if (details && details.highlights) {
+      const items = details.highlights[lang] || details.highlights['en'];
+      const title = lang === 'it' ? 'Punti chiave' : 'Key highlights';
+      highlightsHTML = `
+        <div class="project-highlights">
+          <h4>${title}</h4>
+          <ul>
+            ${items.map(item => `<li>${item}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }
+
+    card.innerHTML = `
+      <div class="project-header">
+        <span class="project-icon">${icon}</span>
+        <div class="project-links">
+          <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" aria-label="View on GitHub" title="GitHub">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <h3 class="project-title">
+        <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">${repo.name}</a>
+      </h3>
+      <p class="project-context" data-i18n="${contextKey}">${displayContext}</p>
+      ${techStackHTML}
+      ${highlightsHTML}
+      <div class="project-meta">
+        ${repo.language ? `
+          <span class="project-lang">
+            <span class="project-lang-dot" style="background-color: ${langColor}"></span>
+            ${repo.language}
+          </span>
+        ` : ''}
+        ${repo.stargazers_count > 0 ? `
+          <span class="project-stars">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.751.751 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/>
+            </svg>
+            ${repo.stargazers_count}
+          </span>
+        ` : ''}
+      </div>
+    `;
+
+    return card;
+  }
+
+  /* --- Render projects --- */
+  function renderProjects(repos) {
     container.innerHTML = '';
 
     /* Filter and sort by pinned order */
@@ -131,8 +299,12 @@
       .map(name => repos.find(r => r.name === name))
       .filter(Boolean);
 
-    pinnedRepos.forEach(repo => {
-      container.appendChild(createProjectCard(repo));
+    /* On Home, show only first 3; on Projects page, show all */
+    const reposToShow = isProjectsPage ? pinnedRepos : pinnedRepos.slice(0, 3);
+    const createCard = isProjectsPage ? createExpandedProjectCard : createProjectCard;
+
+    reposToShow.forEach(repo => {
+      container.appendChild(createCard(repo));
     });
 
     /* Trigger reveal animation */
@@ -161,21 +333,26 @@
 
   /* --- Re-render on language change --- */
   window.addEventListener('langchange', function () {
-    const container = document.getElementById('projects-container');
     if (!container) return;
-    /* Re-render with current data */
-    const cards = container.querySelectorAll('.project-card');
-    cards.forEach(card => {
-      const contextEl = card.querySelector('.project-context');
-      if (contextEl) {
-        const key = contextEl.getAttribute('data-i18n');
-        if (key && window.i18n) {
-          const translated = window.i18n.t(key);
-          if (translated !== key) {
-            contextEl.textContent = translated;
+
+    if (isProjectsPage) {
+      /* Full re-render for expanded cards (highlights depend on language) */
+      fetchRepos();
+    } else {
+      /* Simple text replacement for compact cards */
+      const cards = container.querySelectorAll('.project-card');
+      cards.forEach(card => {
+        const contextEl = card.querySelector('.project-context');
+        if (contextEl) {
+          const key = contextEl.getAttribute('data-i18n');
+          if (key && window.i18n) {
+            const translated = window.i18n.t(key);
+            if (translated !== key) {
+              contextEl.textContent = translated;
+            }
           }
         }
-      }
-    });
+      });
+    }
   });
 })();

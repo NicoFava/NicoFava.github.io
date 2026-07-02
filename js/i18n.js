@@ -8,10 +8,12 @@
   const translations = {
     /* --- Navbar --- */
     'nav.about': { it: 'Chi sono', en: 'About' },
-    'nav.experience': { it: 'Esperienza', en: 'Experience' },
+    'nav.experience': { it: 'Percorso', en: 'Journey' },
     'nav.skills': { it: 'Competenze', en: 'Skills' },
     'nav.projects': { it: 'Progetti', en: 'Projects' },
     'nav.contact': { it: 'Contatti', en: 'Contact' },
+    'nav.teaching': { it: 'Teaching', en: 'Teaching' },
+    'nav.blog': { it: 'Blog', en: 'Blog' },
 
     /* --- Hero --- */
     'hero.greeting': { it: 'Ciao, mi chiamo', en: 'Hi, my name is' },
@@ -21,7 +23,7 @@
       en: 'Master\'s student in Particle Physics & Astroparticles. I bridge the rigor of fundamental research with the hands-on approach of R&D.'
     },
     'hero.cta.projects': { it: 'Scopri i miei progetti', en: 'Explore my projects' },
-    'hero.cta.cv': { it: 'Scarica CV', en: 'Download CV' },
+    'hero.cta.cv': { it: '📄 Scarica CV', en: '📄 Download CV' },
 
     /* --- About --- */
     'about.title': { it: 'Chi sono', en: 'About Me' },
@@ -30,8 +32,8 @@
       en: 'Bridging academia and industry'
     },
     'about.p1': {
-      it: 'Sono uno studente magistrale in Fisica (indirizzo <strong>Particelle Elementari e Astroparticelle</strong>) all\'Università degli Studi di Milano. Il mio percorso si divide tra la <strong>ricerca fondamentale</strong> — in particolare l\'analisi dati dei muoni cosmici per l\'esperimento JUNO — e l\'<strong>esperienza pratica</strong> maturata in oltre due anni come Junior R&D Lab Technician in una startup del settore energetico.',
-      en: 'I\'m a Master\'s student in Physics (<strong>Elementary Particles and Astroparticles</strong>) at the University of Milan. My path splits between <strong>fundamental research</strong> — specifically cosmic muon data analysis for the JUNO experiment — and the <strong>hands-on experience</strong> gained during 2+ years as a Junior R&D Lab Technician at an energy startup.'
+      it: 'Sono uno studente magistrale in Fisica (indirizzo <strong>Particelle Elementari e Astroparticelle</strong>) all\'Università degli Studi di Milano. Il mio percorso si divide tra la <strong>ricerca fondamentale</strong> — in particolare l\'analisi dati dei muoni cosmici per l\'esperimento JUNO — e l\'<strong>esperienza pratica</strong> maturata in oltre due anni come Tecnico di Laboratorio R&D Junior in una startup del settore energetico.',
+      en: 'I\'m a Master\'s student in Physics (<strong>Elementary Particles and Astroparticles</strong>) at the University of Milan. My path splits between <strong>fundamental research</strong> — specifically cosmic muon data analysis for the JUNO experiment — and the <strong>hands-on experience</strong> gained during 2+ years as a Junior R&D Lab Technician at an energy-sector startup.'
     },
     'about.p2': {
       it: 'Mi piace "sporcarmi le mani" sia con il codice che in laboratorio: cerco costantemente di unire il <strong>rigore analitico</strong> del mondo accademico con la <strong>concretezza e il problem-solving</strong> tipici delle startup. Nel tempo libero apprezzo i Lego, i videogiochi e i documentari spaziali.',
@@ -44,32 +46,44 @@
     'about.highlight3.number': { it: 'UniMi', en: 'UniMi' },
     'about.highlight3.label': { it: 'Magistrale', en: 'Master\'s' },
 
-    /* --- Experience --- */
-    'exp.title': { it: 'Esperienza & Istruzione', en: 'Experience & Education' },
-    'exp.subtitle': { it: 'Il mio percorso tra accademia e industria', en: 'My journey between academia and industry' },
+    /* --- Experience & Education --- */
+    'exp.title': { it: 'Percorso', en: 'Journey' },
+    'exp.subtitle': { it: 'Il mio percorso tra accademia e industria', en: 'My path between academia and industry' },
+    'exp.tab.experience': { it: '💼 Esperienze', en: '💼 Experience' },
+    'exp.tab.education': { it: '🎓 Istruzione', en: '🎓 Education' },
 
-    'exp.1.date': { it: '2024 — Presente', en: '2024 — Present' },
-    'exp.1.title': { it: 'Laurea Magistrale in Fisica', en: 'Master\'s Degree in Physics' },
-    'exp.1.org': { it: 'Università degli Studi di Milano — Particelle e Astroparticelle', en: 'University of Milan — Particles & Astroparticles' },
-    'exp.1.desc': {
+    /* Experience entries */
+    'exp.work1.date': { it: 'Gen 2025 — Mag 2026', en: 'Jan 2025 — May 2026' },
+    'exp.work1.title': { it: 'Tecnico di Laboratorio R&D Junior', en: 'Junior R&D Lab Technician' },
+    'exp.work1.org': { it: 'Prometheus S.p.A. — Kilometro Rosso, Bergamo', en: 'Prometheus S.p.A. — Kilometro Rosso, Bergamo' },
+    'exp.work1.desc': {
+      it: 'Progettazione e implementazione di campagne sperimentali basate su modelli teorici. Sviluppo di strumenti di analisi dati e modelli numerici (Python, C++) per la validazione di fenomeni fisici e calibrazione di sensori. Interfaccia tecnica tra R&D, partner accademici e investitori tramite redazione di report scientifici.',
+      en: 'Design and implementation of experimental campaigns based on theoretical models. Development of data analysis tools and numerical models (Python, C++) for physical phenomena validation and sensor calibration. Technical interface between R&D, academic partners, and investors through scientific reporting.'
+    },
+
+    'exp.work2.date': { it: 'Nov 2023 — Gen 2025', en: 'Nov 2023 — Jan 2025' },
+    'exp.work2.title': { it: 'Assistente Tecnico R&D Junior', en: 'Junior R&D Assistant Technician' },
+    'exp.work2.org': { it: 'Prometheus S.p.A. — Kilometro Rosso, Bergamo', en: 'Prometheus S.p.A. — Kilometro Rosso, Bergamo' },
+    'exp.work2.desc': {
+      it: 'Supporto operativo allo scale-up: transizione dai setup prototipali della fase early-stage all\'infrastruttura R&D presso il Kilometro Rosso. Gestione operativa del laboratorio: approntamento della strumentazione di misura, preparazione di campioni e soluzioni, e ottimizzazione della logistica dei materiali. Collaborazione con Senior Nuclear Engineers per la configurazione di strumentazione nucleare.',
+      en: 'Operational support for scale-up: transition from early-stage prototype setups to the R&D infrastructure at Kilometro Rosso. Laboratory operations management: preparation of measurement instrumentation, sample and solution preparation, and materials logistics optimization. Collaboration with Senior Nuclear Engineers for nuclear instrumentation configuration.'
+    },
+
+    /* Education entries */
+    'exp.edu1.date': { it: '2025 — Presente', en: '2025 — Present' },
+    'exp.edu1.title': { it: 'Laurea Magistrale in Fisica', en: 'Master\'s Degree in Physics' },
+    'exp.edu1.org': { it: 'Università degli Studi di Milano — Particelle e Astroparticelle', en: 'University of Milan — Particles & Astroparticles' },
+    'exp.edu1.desc': {
       it: 'Percorso magistrale con focus su fisica delle alte energie, rivelatori di particelle e analisi dati avanzata. Tesi sull\'analisi dei muoni cosmici per l\'esperimento JUNO.',
       en: 'Master\'s program focused on high-energy physics, particle detectors, and advanced data analysis. Thesis on cosmic muon analysis for the JUNO experiment.'
     },
 
-    'exp.2.date': { it: 'Gen 2023 — Presente', en: 'Jan 2023 — Present' },
-    'exp.2.title': { it: 'Junior R&D Lab Technician', en: 'Junior R&D Lab Technician' },
-    'exp.2.org': { it: 'Prometheus S.r.l. — Kilometro Rosso, Bergamo', en: 'Prometheus S.r.l. — Kilometro Rosso, Bergamo' },
-    'exp.2.desc': {
-      it: 'Attività di ricerca e sviluppo nel settore energetico. Gestione di setup sperimentali, calibrazione sensori, analisi dati e report tecnici. Promosso a gennaio 2025.',
-      en: 'R&D activities in the energy sector. Managing experimental setups, sensor calibration, data analysis, and technical reports. Promoted January 2025.'
-    },
-
-    'exp.3.date': { it: '2020 — 2024', en: '2020 — 2024' },
-    'exp.3.title': { it: 'Laurea Triennale in Fisica', en: 'Bachelor\'s Degree in Physics' },
-    'exp.3.org': { it: 'Università degli Studi di Milano', en: 'University of Milan' },
-    'exp.3.desc': {
-      it: 'Tesi: analisi indipendente dei muoni cosmici dai primi dati grezzi del rivelatore JUNO, sviluppata in C++/ROOT.',
-      en: 'Thesis: independent cosmic muon analysis from the first raw data of the JUNO detector, developed in C++/ROOT.'
+    'exp.edu2.date': { it: '2020 — 2024', en: '2020 — 2024' },
+    'exp.edu2.title': { it: 'Laurea Triennale in Fisica', en: 'Bachelor\'s Degree in Physics' },
+    'exp.edu2.org': { it: 'Università degli Studi di Milano — Voto: 105/110', en: 'University of Milan — Grade: 105/110' },
+    'exp.edu2.desc': {
+      it: 'Tesi: analisi indipendente dei muoni cosmici dai primi dati grezzi del rivelatore JUNO, sviluppata in C++/ROOT. Sviluppo di un metodo di analisi dati indipendente con benchmarking rispetto agli algoritmi ufficiali della collaborazione JUNO.',
+      en: 'Thesis: independent cosmic muon analysis from the first raw data of the JUNO detector, developed in C++/ROOT. Development of an independent data analysis method with benchmarking against the official JUNO collaboration algorithms.'
     },
 
     /* --- Skills --- */
@@ -85,6 +99,7 @@
       it: 'I miei progetti principali — dalla fisica delle particelle alla simulazione Monte Carlo',
       en: 'My main projects — from particle physics to Monte Carlo simulation'
     },
+    'projects.viewAll': { it: 'Vedi tutti i progetti →', en: 'View all projects →' },
 
     /* Project-specific contexts (rich descriptions beyond GitHub) */
     'project.auger-anisotropy-scan.context': {
@@ -123,6 +138,32 @@
     'footer.made': { it: 'Fatto con', en: 'Made with' },
     'footer.and': { it: 'e', en: 'and' },
     'footer.coffee': { it: 'caffè', en: 'coffee' },
+
+    /* --- Coming Soon pages --- */
+    'coming.teaching.title': { it: 'In Arrivo', en: 'Coming Soon' },
+    'coming.teaching.text': {
+      it: 'Sto preparando materiale didattico su Matematica e Fisica — spiegazioni, esercizi e risorse pensate per rendere questi argomenti più accessibili. Resta sintonizzato!',
+      en: 'I\'m preparing educational material on Mathematics and Physics — explanations, exercises, and resources designed to make these subjects more accessible. Stay tuned!'
+    },
+    'coming.blog.title': { it: 'In Arrivo', en: 'Coming Soon' },
+    'coming.blog.text': {
+      it: 'Presto pubblicherò articoli su fisica delle particelle, analisi dati, esperienze in laboratorio e molto altro. Torna a trovarmi!',
+      en: 'Soon I\'ll be publishing articles on particle physics, data analysis, lab experiences, and much more. Come back and visit!'
+    },
+    'coming.backHome': { it: '← Torna alla Home', en: '← Back to Home' },
+
+    /* --- Projects Page --- */
+    'projectsPage.title': { it: 'Tutti i Progetti', en: 'All Projects' },
+    'projectsPage.subtitle': {
+      it: 'Esplora nel dettaglio i miei progetti — dall\'analisi dati alla simulazione Monte Carlo',
+      en: 'Explore my projects in detail — from data analysis to Monte Carlo simulation'
+    },
+
+    /* --- Teaching Page --- */
+    'teachingPage.title': { it: 'Teaching', en: 'Teaching' },
+
+    /* --- Blog Page --- */
+    'blogPage.title': { it: 'Blog', en: 'Blog' },
   };
 
   /* --- State --- */

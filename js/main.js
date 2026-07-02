@@ -57,7 +57,7 @@
 
     /* === Active section highlighting === */
     const sections = document.querySelectorAll('section[id]');
-    const navItems = document.querySelectorAll('.nav-links a[href^="#"]');
+    const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
 
     function highlightActiveSection() {
       const scrollY = window.scrollY + 200;
@@ -68,7 +68,7 @@
         const sectionId = section.getAttribute('id');
 
         if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-          navItems.forEach(item => {
+          navAnchors.forEach(item => {
             item.classList.remove('active');
             if (item.getAttribute('href') === '#' + sectionId) {
               item.classList.add('active');
@@ -78,13 +78,49 @@
       });
     }
 
-    window.addEventListener('scroll', highlightActiveSection, { passive: true });
+    if (navAnchors.length > 0) {
+      window.addEventListener('scroll', highlightActiveSection, { passive: true });
+    }
+
+    /* === Tab Toggle (Experience / Education) === */
+    const tabContainer = document.getElementById('exp-tabs');
+    if (tabContainer) {
+      const tabButtons = tabContainer.querySelectorAll('button');
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+          const targetTab = this.dataset.tab;
+
+          /* Update active button */
+          tabButtons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+
+          /* Show/hide panels */
+          document.querySelectorAll('.timeline-panel').forEach(panel => {
+            panel.classList.remove('active');
+          });
+          const targetPanel = document.getElementById('panel-' + targetTab);
+          if (targetPanel) {
+            targetPanel.classList.add('active');
+
+            /* Re-trigger reveal animations for newly visible elements */
+            targetPanel.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+              if ('IntersectionObserver' in window) {
+                revealObserver.observe(el);
+              } else {
+                el.classList.add('visible');
+              }
+            });
+          }
+        });
+      });
+    }
 
     /* === Scroll reveal (Intersection Observer) === */
     const revealElements = document.querySelectorAll('.reveal');
+    let revealObserver;
 
     if ('IntersectionObserver' in window) {
-      const revealObserver = new IntersectionObserver(function (entries) {
+      revealObserver = new IntersectionObserver(function (entries) {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
@@ -101,6 +137,9 @@
       /* Fallback: show all */
       revealElements.forEach(el => el.classList.add('visible'));
     }
+
+    /* Expose revealObserver for tab toggle to use */
+    window._revealObserver = revealObserver;
 
     /* === Dynamic footer year === */
     const yearEl = document.getElementById('current-year');

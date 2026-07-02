@@ -30,13 +30,15 @@
   <!-- ==================== NAVBAR ==================== -->
   <nav class="navbar" id="navbar">
     <div class="container">
-      <a href="#" class="nav-logo">N<span>.</span>F</a>
+      <a href="./" class="nav-logo">N<span>.</span>F</a>
 
       <div class="nav-links" id="nav-links">
         <a href="#about" data-i18n="nav.about">Chi sono</a>
-        <a href="#experience" data-i18n="nav.experience">Esperienza</a>
+        <a href="#experience" data-i18n="nav.experience">Percorso</a>
         <a href="#skills" data-i18n="nav.skills">Competenze</a>
         <a href="#projects" data-i18n="nav.projects">Progetti</a>
+        <a href="teaching/" data-i18n="nav.teaching">Teaching</a>
+        <a href="blog/" data-i18n="nav.blog">Blog</a>
         <a href="#contact" data-i18n="nav.contact">Contatti</a>
 
         <div class="lang-toggle">
@@ -73,7 +75,7 @@
             Scopri i miei progetti
           </a>
           <a href="assets/docs/cv-favagrossa.pdf" class="btn btn-outline" target="_blank" data-i18n="hero.cta.cv">
-            <span class="btn-icon">📄</span> Scarica CV
+            📄 Scarica CV
           </a>
         </div>
       </div>
@@ -89,7 +91,7 @@
       <div class="about-grid">
         <div class="about-text">
           <p class="reveal" data-i18n="about.p1">
-            Sono uno studente magistrale in Fisica (indirizzo <strong>Particelle Elementari e Astroparticelle</strong>) all'Università degli Studi di Milano. Il mio percorso si divide tra la <strong>ricerca fondamentale</strong> — in particolare l'analisi dati dei muoni cosmici per l'esperimento JUNO — e l'<strong>esperienza pratica</strong> maturata in oltre due anni come Junior R&D Lab Technician in una startup del settore energetico.
+            Sono uno studente magistrale in Fisica (indirizzo <strong>Particelle Elementari e Astroparticelle</strong>) all'Università degli Studi di Milano. Il mio percorso si divide tra la <strong>ricerca fondamentale</strong> — in particolare l'analisi dati dei muoni cosmici per l'esperimento JUNO — e l'<strong>esperienza pratica</strong> maturata in oltre due anni come Tecnico di Laboratorio R&D Junior in una startup del settore energetico.
           </p>
           <p class="reveal" data-i18n="about.p2">
             Mi piace "sporcarmi le mani" sia con il codice che in laboratorio: cerco costantemente di unire il <strong>rigore analitico</strong> del mondo accademico con la <strong>concretezza e il problem-solving</strong> tipici delle startup. Nel tempo libero apprezzo i Lego, i videogiochi e i documentari spaziali.
@@ -126,46 +128,73 @@
   <!-- ==================== EXPERIENCE & EDUCATION ==================== -->
   <section id="experience">
     <div class="container">
-      <h2 class="section-title reveal" data-i18n="exp.title">Esperienza & Istruzione</h2>
+      <h2 class="section-title reveal" data-i18n="exp.title">Percorso</h2>
       <p class="section-subtitle reveal" data-i18n="exp.subtitle">Il mio percorso tra accademia e industria</p>
 
-      <div class="timeline">
-        <!-- Entry 1: Master's -->
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-card">
-            <span class="timeline-date" data-i18n="exp.1.date">2024 — Presente</span>
-            <h3 class="timeline-title" data-i18n="exp.1.title">Laurea Magistrale in Fisica</h3>
-            <p class="timeline-org" data-i18n="exp.1.org">Università degli Studi di Milano — Particelle e Astroparticelle</p>
-            <p class="timeline-desc" data-i18n="exp.1.desc">
-              Percorso magistrale con focus su fisica delle alte energie, rivelatori di particelle e analisi dati avanzata. Tesi sull'analisi dei muoni cosmici per l'esperimento JUNO.
-            </p>
+      <!-- Tab Toggle -->
+      <div class="tab-toggle reveal" id="exp-tabs">
+        <button class="active" data-tab="experience" data-i18n="exp.tab.experience">💼 Esperienze</button>
+        <button data-tab="education" data-i18n="exp.tab.education">🎓 Istruzione</button>
+      </div>
+
+      <!-- Experience Panel -->
+      <div class="timeline-panel active" id="panel-experience">
+        <div class="timeline">
+          <!-- Work Entry 1: Junior R&D Lab Technician -->
+          <div class="timeline-item reveal">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-date" data-i18n="exp.work1.date">Gen 2025 — Mag 2026</span>
+              <h3 class="timeline-title" data-i18n="exp.work1.title">Tecnico di Laboratorio R&D Junior</h3>
+              <p class="timeline-org" data-i18n="exp.work1.org">Prometheus S.p.A. — Kilometro Rosso, Bergamo</p>
+              <p class="timeline-desc" data-i18n="exp.work1.desc">
+                Progettazione e implementazione di campagne sperimentali basate su modelli teorici. Sviluppo di strumenti di analisi dati e modelli numerici (Python, C++) per la validazione di fenomeni fisici e calibrazione di sensori. Interfaccia tecnica tra R&D, partner accademici e investitori tramite redazione di report scientifici.
+              </p>
+            </div>
+          </div>
+
+          <!-- Work Entry 2: Junior R&D Assistant Technician -->
+          <div class="timeline-item reveal">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-date" data-i18n="exp.work2.date">Nov 2023 — Gen 2025</span>
+              <h3 class="timeline-title" data-i18n="exp.work2.title">Assistente Tecnico R&D Junior</h3>
+              <p class="timeline-org" data-i18n="exp.work2.org">Prometheus S.p.A. — Kilometro Rosso, Bergamo</p>
+              <p class="timeline-desc" data-i18n="exp.work2.desc">
+                Supporto operativo allo scale-up: transizione dai setup prototipali della fase early-stage all'infrastruttura R&D presso il Kilometro Rosso. Gestione operativa del laboratorio: approntamento della strumentazione di misura, preparazione di campioni e soluzioni, e ottimizzazione della logistica dei materiali. Collaborazione con Senior Nuclear Engineers per la configurazione di strumentazione nucleare.
+              </p>
+            </div>
           </div>
         </div>
+      </div>
 
-        <!-- Entry 2: R&D Job -->
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-card">
-            <span class="timeline-date" data-i18n="exp.2.date">Gen 2023 — Presente</span>
-            <h3 class="timeline-title" data-i18n="exp.2.title">Junior R&D Lab Technician</h3>
-            <p class="timeline-org" data-i18n="exp.2.org">Prometheus S.r.l. — Kilometro Rosso, Bergamo</p>
-            <p class="timeline-desc" data-i18n="exp.2.desc">
-              Attività di ricerca e sviluppo nel settore energetico. Gestione di setup sperimentali, calibrazione sensori, analisi dati e report tecnici. Promosso a gennaio 2025.
-            </p>
+      <!-- Education Panel -->
+      <div class="timeline-panel" id="panel-education">
+        <div class="timeline">
+          <!-- Education Entry 1: Master's -->
+          <div class="timeline-item reveal">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-date" data-i18n="exp.edu1.date">2025 — Presente</span>
+              <h3 class="timeline-title" data-i18n="exp.edu1.title">Laurea Magistrale in Fisica</h3>
+              <p class="timeline-org" data-i18n="exp.edu1.org">Università degli Studi di Milano — Particelle e Astroparticelle</p>
+              <p class="timeline-desc" data-i18n="exp.edu1.desc">
+                Percorso magistrale con focus su fisica delle alte energie, rivelatori di particelle e analisi dati avanzata. Tesi sull'analisi dei muoni cosmici per l'esperimento JUNO.
+              </p>
+            </div>
           </div>
-        </div>
 
-        <!-- Entry 3: Bachelor's -->
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-card">
-            <span class="timeline-date" data-i18n="exp.3.date">2020 — 2024</span>
-            <h3 class="timeline-title" data-i18n="exp.3.title">Laurea Triennale in Fisica</h3>
-            <p class="timeline-org" data-i18n="exp.3.org">Università degli Studi di Milano</p>
-            <p class="timeline-desc" data-i18n="exp.3.desc">
-              Tesi: analisi indipendente dei muoni cosmici dai primi dati grezzi del rivelatore JUNO, sviluppata in C++/ROOT.
-            </p>
+          <!-- Education Entry 2: Bachelor's -->
+          <div class="timeline-item reveal">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-date" data-i18n="exp.edu2.date">2020 — 2024</span>
+              <h3 class="timeline-title" data-i18n="exp.edu2.title">Laurea Triennale in Fisica</h3>
+              <p class="timeline-org" data-i18n="exp.edu2.org">Università degli Studi di Milano — Voto: 105/110</p>
+              <p class="timeline-desc" data-i18n="exp.edu2.desc">
+                Tesi: analisi indipendente dei muoni cosmici dai primi dati grezzi del rivelatore JUNO, sviluppata in C++/ROOT. Sviluppo di un metodo di analisi dati indipendente con benchmarking rispetto agli algoritmi ufficiali della collaborazione JUNO.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -236,7 +265,11 @@
       </p>
 
       <div class="projects-grid" id="projects-container">
-        <!-- Populated dynamically by projects.js -->
+        <!-- Populated dynamically by projects.js (preview mode: 3 cards) -->
+      </div>
+
+      <div class="view-all-wrapper reveal">
+        <a href="projects/" class="btn btn-outline" data-i18n="projects.viewAll">Vedi tutti i progetti →</a>
       </div>
     </div>
   </section>
