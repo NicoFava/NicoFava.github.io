@@ -102,6 +102,14 @@
     'projects.viewAll': { it: 'Vedi tutti i progetti →', en: 'View all projects →' },
 
     /* Project-specific contexts (rich descriptions beyond GitHub) */
+    'project.higgs-production-analysis.context': {
+      it: 'Analisi computazionale per l\'identificazione dei meccanismi di produzione del Bosone di Higgs a LHC. Simulazione Monte Carlo con MadGraph5, Pythia8 e Delphes delle topologie principali (ggF, VBF, WH, ZH) e analisi \"blind\" su campioni ATLAS Open Data nel canale H → ZZ* → 4ℓ.',
+      en: 'Computational analysis for identifying Higgs boson production mechanisms at the LHC. Monte Carlo simulation with MadGraph5, Pythia8, and Delphes of the main topologies (ggF, VBF, WH, ZH), and blind analysis on ATLAS Open Data samples in the H → ZZ* → 4ℓ channel.'
+    },
+    'project.icecube-neutrino-analysis.context': {
+      it: 'Suite di analisi per la ricerca di sorgenti puntiformi di neutrini astrofisici (NGC 1068, TXS 0506+056) utilizzando 14 anni di dati IceCube Tracks. Include analisi di likelihood non-binnata con SkyLLH, mappe HEALPix e stima del fondo tramite scrambling Monte Carlo.',
+      en: 'Analysis suite for astrophysical neutrino point-source searches (NGC 1068, TXS 0506+056) using 14 years of IceCube Tracks data. Features unbinned likelihood analysis with SkyLLH, HEALPix skymaps, and background estimation via Monte Carlo scrambling.'
+    },
     'project.auger-anisotropy-scan.context': {
       it: 'Suite avanzata in Python per l\'analisi statistica dei raggi cosmici ad altissima energia (UHECR). Utilizza metodi Monte Carlo ottimizzati per individuare clustering e anisotropie attorno a sorgenti extragalattiche come NGC 5128 (Centaurus A).',
       en: 'Advanced Python suite for ultra-high-energy cosmic ray (UHECR) statistical analysis. Uses optimized Monte Carlo methods to detect clustering and anisotropies around extragalactic sources like NGC 5128 (Centaurus A).'

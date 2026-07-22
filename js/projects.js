@@ -10,6 +10,8 @@
 
   /* --- Pinned repos configuration --- */
   const PINNED_REPOS = [
+    'higgs-production-analysis',
+    'icecube-neutrino-analysis',
     'auger-anisotropy-scan',
     'juno-cosmic-muons-analysis',
     'atlas-hzz4l-analysis',
@@ -19,6 +21,8 @@
 
   /* --- Project icons mapping --- */
   const PROJECT_ICONS = {
+    'higgs-production-analysis': '🔬',
+    'icecube-neutrino-analysis': '🧊',
     'auger-anisotropy-scan': '🔭',
     'juno-cosmic-muons-analysis': '🌌',
     'atlas-hzz4l-analysis': '💥',
@@ -38,6 +42,42 @@
 
   /* --- Extended project data for the Projects page --- */
   const PROJECT_DETAILS = {
+    'higgs-production-analysis': {
+      techStack: ['Python', 'MadGraph5', 'Pythia8', 'Delphes', 'PyROOT', 'ROOT'],
+      presentation: 'assets/docs/HIGGS.pdf',
+      highlights: {
+        it: [
+          'Simulazione Monte Carlo dei meccanismi di produzione del Bosone di Higgs (ggF, VBF, WH, ZH)',
+          'Analisi delle firme cinematiche con MadGraph5_aMC@NLO, Pythia8 e Delphes',
+          'Identificazione "blind" del meccanismo di produzione su campioni ATLAS Open Data',
+          'Ricostruzione della massa invariante a 4 leptoni e confronto con simulazioni teoriche'
+        ],
+        en: [
+          'Monte Carlo simulation of Higgs boson production mechanisms (ggF, VBF, WH, ZH)',
+          'Kinematic signature analysis with MadGraph5_aMC@NLO, Pythia8, and Delphes',
+          'Blind identification of the production mechanism on ATLAS Open Data samples',
+          'Four-lepton invariant mass reconstruction and comparison with theoretical simulations'
+        ]
+      }
+    },
+    'icecube-neutrino-analysis': {
+      techStack: ['Python', 'SkyLLH', 'HEALPix', 'NumPy', 'Matplotlib', 'Astropy'],
+      presentation: 'assets/docs/ICECUBE.pdf',
+      highlights: {
+        it: [
+          'Ricerca di sorgenti puntiformi di neutrini astrofisici con 14 anni di dati IceCube',
+          'Analisi di likelihood non-binnata per identificare clustering spaziale',
+          'Mappe del cielo HEALPix per distribuzione eventi e dipendenza energia-declinazione',
+          'Stima del fondo tramite scrambling Monte Carlo e calcolo p-value con look-elsewhere effect'
+        ],
+        en: [
+          'Astrophysical neutrino point-source search with 14 years of IceCube data',
+          'Unbinned maximum likelihood analysis to identify spatial clustering',
+          'HEALPix skymaps for event distributions and energy-declination dependencies',
+          'Background estimation via Monte Carlo scrambling and p-value calculation with look-elsewhere effect'
+        ]
+      }
+    },
     'auger-anisotropy-scan': {
       techStack: ['Python', 'NumPy', 'Matplotlib', 'Monte Carlo', 'HEALPix'],
       highlights: {
@@ -127,6 +167,20 @@
 
   /* --- Fallback data (in case GitHub API rate-limits) --- */
   const FALLBACK_DATA = [
+    {
+      name: 'higgs-production-analysis',
+      html_url: 'https://github.com/NicoFava/higgs-production-analysis',
+      language: 'Python',
+      stargazers_count: 0,
+      description: 'Analysis of Higgs boson production mechanisms (ggF, VBF, WH, ZH) using MadGraph simulations and ATLAS Open Data.'
+    },
+    {
+      name: 'icecube-neutrino-analysis',
+      html_url: 'https://github.com/NicoFava/icecube-neutrino-analysis',
+      language: 'Python',
+      stargazers_count: 1,
+      description: 'Astrophysical neutrino point-source search using IceCube Tracks data (2008-2022), featuring SkyLLH likelihood analysis and HEALPix skymaps.'
+    },
     {
       name: 'auger-anisotropy-scan',
       html_url: 'https://github.com/NicoFava/auger-anisotropy-scan',
@@ -252,6 +306,18 @@
       `;
     }
 
+    /* Presentation button (only for projects with a PDF) */
+    let presentationHTML = '';
+    if (details && details.presentation) {
+      const btnLabel = lang === 'it' ? '📊 Vedi Presentazione' : '📊 View Presentation';
+      const basePath = isProjectsPage ? '../' : '';
+      presentationHTML = `
+        <button class="btn-presentation" data-pdf="${basePath}${details.presentation}" data-title="${repo.name}">
+          ${btnLabel}
+        </button>
+      `;
+    }
+
     card.innerHTML = `
       <div class="project-header">
         <span class="project-icon">${icon}</span>
@@ -269,6 +335,7 @@
       <p class="project-context" data-i18n="${contextKey}">${displayContext}</p>
       ${techStackHTML}
       ${highlightsHTML}
+      ${presentationHTML}
       <div class="project-meta">
         ${repo.language ? `
           <span class="project-lang">
@@ -330,6 +397,75 @@
 
   /* --- Init --- */
   document.addEventListener('DOMContentLoaded', fetchRepos);
+
+  /* --- PDF Presentation Modal --- */
+  function createPdfModal() {
+    if (document.getElementById('pdf-modal')) return;
+
+    const modal = document.createElement('div');
+    modal.id = 'pdf-modal';
+    modal.className = 'pdf-modal';
+    modal.innerHTML = `
+      <div class="pdf-modal-backdrop"></div>
+      <div class="pdf-modal-container">
+        <div class="pdf-modal-header">
+          <h3 class="pdf-modal-title"></h3>
+          <button class="pdf-modal-close" aria-label="Close">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <div class="pdf-modal-body">
+          <iframe class="pdf-modal-iframe" frameborder="0"></iframe>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    /* Close handlers */
+    const backdrop = modal.querySelector('.pdf-modal-backdrop');
+    const closeBtn = modal.querySelector('.pdf-modal-close');
+
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      /* Clear iframe to stop any loading */
+      setTimeout(() => {
+        modal.querySelector('.pdf-modal-iframe').src = '';
+      }, 300);
+    }
+
+    backdrop.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', closeModal);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+  }
+
+  function openPdfModal(pdfUrl, title) {
+    createPdfModal();
+    const modal = document.getElementById('pdf-modal');
+    const iframe = modal.querySelector('.pdf-modal-iframe');
+    const titleEl = modal.querySelector('.pdf-modal-title');
+
+    titleEl.textContent = title.replace(/-/g, ' ');
+    iframe.src = pdfUrl;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  /* Delegate click events for presentation buttons */
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.btn-presentation');
+    if (btn) {
+      e.preventDefault();
+      openPdfModal(btn.dataset.pdf, btn.dataset.title);
+    }
+  });
 
   /* --- Re-render on language change --- */
   window.addEventListener('langchange', function () {
