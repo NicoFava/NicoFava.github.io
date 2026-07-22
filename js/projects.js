@@ -97,6 +97,7 @@
     },
     'juno-cosmic-muons-analysis': {
       techStack: ['C++', 'CERN ROOT', 'Bash', 'Linux'],
+      presentation: 'assets/docs/Presentazione._Nicolò_Favagrossa.pdf',
       highlights: {
         it: [
           'Pipeline completa di analisi dati: dal formato grezzo alle distribuzioni fisiche',
